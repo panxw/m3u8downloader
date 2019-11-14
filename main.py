@@ -5,6 +5,7 @@
 import requests 
 import threading
 import os
+import time
 
 #要下载的m3u8网络地址
 m3u8url="http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8";
@@ -80,10 +81,16 @@ def downloadstream(tn):
         downloadIndex=downloadIndex+1
         lock.release()
         
+        startt=int(time.time())
         r = requests.get(tsUrl) 
         with open(DL_DIR+'/'+tsName, "wb") as code:
             code.write(r.content)
-        print('end '+str(downloadIndex))
+        
+        endt = int(time.time())
+        spendtime=endt-startt
+        
+        print('end '+str(downloadIndex)+'/'+str(len(tsNames)))
+        print('this task spend time='+str(spendtime)+' sec')
 
 
 
